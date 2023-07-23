@@ -301,13 +301,24 @@ class Brick {
     moveDown() {
         if (!this.checkCollision(this.rowPos + 1, this.colPos, this.layout[this.activeIndex])) {
             this.clear()
+            // while (!this.checkCollision(this.rowPos + 1, this.colPos, this.layout[this.activeIndex])){
+            //     this.clear()
+            //     this.rowPos += 1
+            //     this.draw()
+            // }
             this.rowPos += 1
             this.draw()
         }else {
             this.handleLanded()
             generateNewBrick()
         }
-
+    }
+    moveDownEnd() {
+        while (!this.checkCollision(this.rowPos + 1, this.colPos, this.layout[this.activeIndex])){
+            this.clear()
+            this.rowPos += 1
+            this.draw()
+        }
     }
     rotate() {
         if (!this.checkCollision(this.rowPos, this.colPos, this.layout[(this.activeIndex + 1) % 4])) {
@@ -377,7 +388,7 @@ const refresh = setInterval(() => {
     }else {
         clearInterval(refresh)
     }
-}, 1000)
+}, 500)
 
 document.addEventListener('keydown', (e) => {
     if (!board.gameOver && board.isPlaying) {
@@ -389,7 +400,7 @@ document.addEventListener('keydown', (e) => {
                 brick.moveRight()
                 break
             case KEY_CODES.DOWN:
-                brick.moveDown()
+                brick.moveDownEnd()
                 break
             case KEY_CODES.UP:
                 brick.rotate()
